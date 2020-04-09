@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ 		xmlns:context="http://www.springframework.org/schema/context"
+ 		xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 		xmlns:p="http://www.springframework.org/schema/p"
+ 		xsi:schemaLocation="http://www.springframework.org/schema/beans WEB-INF/xsd/spring-beans.xsd
+							http://www.springframework.org/schema/context WEB-INF/xsd/spring-context.xsd
+							http://www.springframework.org/schema/mvc WEB-INF/xsd/spring-mvc.xsd">
+
+	<!-- Prototipo -->
+	<context:component-scan base-package="br.ce.service" />
+	
+	<!-- Tipo Curso -->
+	<context:component-scan base-package="br.ce.TipoCurso.service" />
+	
+	<!-- Curso -->
+	<context:component-scan base-package="br.ce.Curso.service" />
+	
+	<!-- Usuario -->
+	<context:component-scan base-package="br.ce.Usuario.service" />
+	
+	<!-- Perfil -->
+	<context:component-scan base-package="br.ce.Perfil.service" />
+	
+	<!-- Login -->
+	<context:component-scan base-package="br.ce.Login.service" />
+	
+	<mvc:annotation-driven />
+	
+	<mvc:view-controller path="/" view-name="index"/>
+		
+	<mvc:resources mapping="/css/**" location="/WEB-INF/resources/css/" />
+	<mvc:resources mapping="/fonts/**" location="/WEB-INF/resources/fonts/" />
+	<mvc:resources mapping="/ico/**" location="/WEB-INF/resources/ico/" />
+	<mvc:resources mapping="/img/**" location="/WEB-INF/resources/img/" />
+	<mvc:resources mapping="/js/**" location="/WEB-INF/resources/js/" />
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<property name="viewClass"  value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/views/" /> 
+		<property name="suffix" value=".jsp" /> 
+ 	</bean>
+ 	
+ 	<!-- Configure to plugin JSON as request and response in method handler -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonMessageConverter"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Configure bean to convert JSON to POJO and vice versa -->
+	<bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+	
+	<bean class="br.ce.generic.CustomApplicationContextAware" />
+	
+ 	<import resource="appContext.xml" />
+</beans>
